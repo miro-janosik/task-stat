@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Task status</title>
+    <style>
+    #tasks {
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    
+    #tasks td, #tasks th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+    
+    #tasks tr:nth-child(even){background-color: #f2f2f2;}
+    
+    #tasks tr:hover {background-color: #ddd;}
+    
+    #tasks th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #4CAF50;
+        color: white;
+    }
+    #tasks td.status-good {
+        background-color: #6E6;
+    }
+    #tasks td.status-warn {
+        background-color: #FB0;
+    }
+    #tasks td.status-failed {
+        background-color: #E66;
+    }
+    #tasks td.status-running {
+        background-color: #66E;
+    }
+    #tasks td.status-none {
+        background-color: #888;
+    }
+    </style>
+</head>
+<body>
+    {# flask uses Jinja2 template engine #}
+    <h1>Task status for {{ period }}</h1>
+
+    <font size="-1"> 
+{% for per in ("today", "yesterday", "week") %}
+	{% if params.period != per %}
+		<a href="{{ params.baseurl }}?group={{ params.group }}&period={{ per }}&type={{ params.type }}">
+	{% endif %}
+{{ per }}
+	{% if params.period != per %} </a> {% endif %}
+
+	&nbsp;|&nbsp;
+{% endfor %} 
+
+&nbsp;&nbsp;&nbsp;
+
+{% for t in ("all", "last", "last_or_error" ) %}
+	{% if params.type != t %}
+		<a href="{{ params.baseurl }}?group={{ params.group }}&period={{ params.period }}&type={{ t }}">
+	{% endif %}
+
+	{{ t }}
+
+	{% if params.type != t %} </a> {% endif %}
+
+	&nbsp;|&nbsp;
+
+{% endfor %} 
+
+
+</font><br/>
+
+    <table id="tasks">
+        <tr>
+          <th>Time</th>
+          <th>Group</th>
+          <th>Name(+alt)</th>
+          <th>Status</th>
+          <th>Text(+alt)</th>
+        </tr>
+        {% for task in tasks if task.display == "True" %}
+          {# % if task.display == "True" % #}  
+            <tr>
+                <td>{{ task.datetime }}</td>
+                <td>{{ task.groups }}</td>
+                <td title="{{ task.author }}">{{ task.name }}</td>
+                <td class="status-{{ task.status }}">{{ task.status }}</td>
+                <td title="{{ task.description }}">{{ task.text }}</td>
+            </tr>
+          {# % endif % #}
+        {% endfor %}
+    </table>
+</body>
+</html>
