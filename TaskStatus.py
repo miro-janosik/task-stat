@@ -68,11 +68,11 @@ class TaskStatus(Resource):
                 dateTo = dateFrom
             # last option is date in format 2019-01-31 or 2019-01-15-2019-01-31
             elif len(period) == 10:
-                dateFrom = datetime.strptime(period, '%Y-%m-%d')
+                dateFrom = datetime.strptime(period, '%Y-%m-%d').date()
                 dateTo = dateFrom
             elif len(period) == 21:
-                dateFrom = datetime.strptime(period[0:10], '%Y-%m-%d')
-                dateTo = datetime.strptime(period[11:21], '%Y-%m-%d')
+                dateFrom = datetime.strptime(period[0:10], '%Y-%m-%d').date()
+                dateTo = datetime.strptime(period[11:21], '%Y-%m-%d').date()
             else:
                 pass # take default
             
