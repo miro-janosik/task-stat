@@ -2,6 +2,8 @@
 
 Script that runs as REST API that can write status of tasks and return summary of task status.
 
+![image](https://user-images.githubusercontent.com/24545156/127509271-222ab811-1676-4953-96f5-eb2be3c9a79b.png)
+
 ** Dependencies **
 
 flask, flask_restful, jsonify
