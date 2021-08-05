@@ -24,6 +24,17 @@ import Common
 DATAFILE = "data.csv"
 CSV_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
+# data should be dictionary with required keys
+def WriteData(data):
+    # get data into string CSV format
+    d = "{group},{task},{status},{text},{desc},{author}".format(**data)
+    dt = datetime.now().strftime(CSV_DATETIME_FORMAT)
+    textline = dt + "," + d + "\n"
+
+    with open(DATAFILE, "a") as f:
+        f.write(textline)
+
+
 class TaskStatus(Resource):
     
     def post(self):
@@ -38,12 +49,7 @@ class TaskStatus(Resource):
                 data[key] = text.replace(',', ';')
 
             # get data into string CSV format
-            d = "{group},{task},{status},{text},{desc},{author}".format(**data)
-            dt = datetime.now().strftime(CSV_DATETIME_FORMAT)
-            textline = dt + "," + d + "\n"
-
-            with open(DATAFILE, "a") as f:
-                f.write(textline)
+            WriteData(data)
         except Exception as e:
             self.log(traceback.format_exc())
             return make_response(str(e), 500)

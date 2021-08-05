@@ -7,7 +7,9 @@ Script that runs as REST API that can write status of tasks and return summary o
 flask, flask_restful, jsonify
 
 ** Running **
-nohup python3 main.py &
+nohup python3 task-stat.py &
+
+Set a crontab to run morning-cleanup.py every midnight - it will backup the data + it will set known tasks to "none" so they show up if they would not run.
 
 ** Send data **
 > POST to /task-stat/?group=<group>&task=<task>&status=<status>&text=Finished&desc=Finished%20fine&author=<author>
